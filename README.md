@@ -26,6 +26,7 @@ Instead just use an easy config file
 
 **A colored interface for the cmd**
 
+<img src="https://i.imgur.com/HsWzZUv.png">
 
 # Original copyright
 Pizzabelly : https://github.com/PizzaBelly 
