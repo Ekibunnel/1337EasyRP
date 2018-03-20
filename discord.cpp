@@ -64,7 +64,6 @@ void UpdatePresence(const char* state, const char* details, const char* largeIma
         Shutdown(); 
     }
     discordPresence.largeImageKey = largeImageKey;
-	discordPresence.endTimestamp = time(0) + 0xF;
 
     //Make sure not to set the optional variables if they are not defined in the config
     if (!(strlen(smallImageKey) < 1))
