@@ -25,3 +25,4 @@ extern bool animatestate;
 extern bool animatedetails;
 extern bool animate;
 extern bool hidden;
+extern int showingtime;

@@ -37,33 +37,37 @@ void Shutdown()
 
 //Update Discord Rich Presence
 void UpdatePresence(const char* state, const char* details, const char* largeImageKey,
-        const char* smallImageKey, const char* smallImageText, const char* largeImageText)
+	const char* smallImageKey, const char* smallImageText, const char* largeImageText, int64_t timestamp)
 {
-    //Set required variables
-    char buffer[256];
-    DiscordRichPresence discordPresence;
-    memset(&discordPresence, 0, sizeof(discordPresence));
+	//Set required variables
+	char buffer[256];
+	DiscordRichPresence discordPresence;
+	memset(&discordPresence, 0, sizeof(discordPresence));
 
-    //Make sure that state nor details are either too big for discord or not set, then set them
-    if (sizeof(state) > 128 || strlen(state) < 1)
-    {
-        std::cout << "\nState parameter is too long or not set\nPress any key to exit..." << std::endl;
-        Shutdown();
-    }
-    discordPresence.state = state;
-    if (sizeof(details) > 128 || strlen(details) < 1)
-    {
-        std::cout << "\nDetails parameter is too long or not set\nPress any key to exit..." << std::endl;
-        Shutdown(); 
-    }
-    sprintf_s(buffer, "%s", details);
-    discordPresence.details = buffer;
-    if (strlen(largeImageKey) < 1)
-    {
-        std::cout << "\nLargeImage parameter not set\nPress any key to exit..." << std::endl;
-        Shutdown(); 
-    }
-    discordPresence.largeImageKey = largeImageKey;
+	//Make sure that state nor details are either too big for discord or not set, then set them
+	if (sizeof(state) > 128 || strlen(state) < 1)
+	{
+		std::cout << "\nState parameter is too long or not set\nPress any key to exit..." << std::endl;
+		Shutdown();
+	}
+	discordPresence.state = state;
+	if (sizeof(details) > 128 || strlen(details) < 1)
+	{
+		std::cout << "\nDetails parameter is too long or not set\nPress any key to exit..." << std::endl;
+		Shutdown();
+	}
+	sprintf_s(buffer, "%s", details);
+	discordPresence.details = buffer;
+	if (strlen(largeImageKey) < 1)
+	{
+		std::cout << "\nLargeImage parameter not set\nPress any key to exit..." << std::endl;
+		Shutdown();
+	}
+	discordPresence.largeImageKey = largeImageKey;
+	if (timestamp != NULL){
+		if (timestamp == 1) {discordPresence.endTimestamp = time(0) + 0xF;}
+		if (timestamp>1) { discordPresence.startTimestamp = timestamp; }
+	}
 
     //Make sure not to set the optional variables if they are not defined in the config
     if (!(strlen(smallImageKey) < 1))

@@ -20,6 +20,7 @@ bool animate;
 bool animatestate;
 bool animatedetails;
 bool hidden;
+int showingtime;
 
 // Set value of color for cmd
 int Black = 0;
@@ -40,6 +41,11 @@ int Yellow = 14;
 int IWhite = 15;
 
 
+// Convert string to bool
+int to_int(std::string str){
+   int a = atoi(str.c_str());
+   return a;
+}
 // Convert string to bool
 bool to_bool(std::string str) {
 	std::transform(str.begin(), str.end(), str.begin(), ::tolower);
@@ -102,7 +108,10 @@ bool setPresenceVariables(std::string configPath)
 					animatedetails = to_bool(value);
 				else if (key == "Hidden")
 					hidden = to_bool(value);
+				else if (key == "Showtime")
+					showingtime = to_int(value);
 				animate = (animatestate || animatedetails);
+
             }
         }
     }
@@ -170,6 +179,11 @@ void printVariables()
 	std::cout << "IS HIDDEN: ";
 	if (hidden) { setcolor(IBlue); } else { setcolor(IRed); }
 	std::cout << std::boolalpha << hidden << std::endl;
+	setcolor(IGreen);
+	std::cout << "TIME CONFIG: ";
+	if (showingtime == 1) { setcolor(IBlue); } else if (showingtime == 2) { setcolor(IMagenta); } else { setcolor(IRed); }
+	std::cout <<  showingtime << std::endl;
+
 }
 
 void printanime(){
@@ -190,10 +204,12 @@ bool configFileChanged(std::string configPath)
 {
     std::string vars[7] = {clientID, state, details, largeImage, smallImage, smallImageText, largeImageText};
 	bool bvars[3] = {animatestate,animatedetails,hidden};
+	int ivars[1] = { showingtime };
     if (setPresenceVariables(configPath))
     {
         std::string possibleUpdatedVars[7] = {clientID, state, details, largeImage, smallImage, smallImageText, largeImageText};
 		bool possibleUpdatedbVars[3] = { animatestate,animatedetails,hidden };
+		int possibleUpdatediVars[1] = { showingtime };
         for(int i = 0; i < 7; i++)
         {
             if (vars[i] != possibleUpdatedVars[i])
@@ -202,6 +218,11 @@ bool configFileChanged(std::string configPath)
 		for (int i = 0; i < 3; i++)
 		{
 			if (bvars[i] != possibleUpdatedbVars[i])
+				return true;
+		}
+		for (int i = 0; i < 1; i++)
+		{
+			if (ivars[i] != possibleUpdatediVars[i])
 				return true;
 		}
     }
