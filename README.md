@@ -24,9 +24,11 @@ Instead just use an easy config file
 
 **An "Hide option" to hide the cmd** (usefull if you add this tool to your system Startup)
 
+**Multiple time mode**
+
 **A colored interface for the cmd**
 
-<img src="https://i.imgur.com/HsWzZUv.png">
+<img src="https://i.imgur.com/g3afa4P.png">
 
 # Original copyright
 Pizzabelly : https://github.com/PizzaBelly 
