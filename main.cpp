@@ -5,6 +5,7 @@
 #include <csignal>
 #include <shellapi.h>
 #include <tchar.h>
+#include <ctime>
 
 
 #define CONFIG "config.ini"
@@ -22,6 +23,8 @@ bool quit = false;
 bool firstUpdate = true;
 int stateindex = 0;
 int detailsindex = 0;
+int firsttimestamp = 0;
+int timestamp = NULL;
 
 
 //Break the loop and properly shutdown discord-rp
@@ -79,21 +82,25 @@ int main(void)
 			//Print and set variables for the presence
 			printVariables();
 			WindowVisibility(hidden);
-			UpdatePresence(state.c_str(), details.c_str(), largeImage.c_str(), smallImage.c_str(), smallImageText.c_str(), largeImageText.c_str());
+			UpdatePresence(state.c_str(), details.c_str(), largeImage.c_str(), smallImage.c_str(), smallImageText.c_str(), largeImageText.c_str(), timestamp);
 			animatedstate = state.c_str();
 			animateddetails = details.c_str();
 			stateindex = 0;
 			detailsindex = 0;
+			if (showingtime == 0 || showingtime > 2 || showingtime < 0) { timestamp = NULL; }
+			else if (showingtime == 1) { timestamp = firsttimestamp; }
+			else if (showingtime == 2) { timestamp = 1; }
 
 			//Switch firstUpdate as it is not the first update anymore ;)
 			if (firstUpdate){
 				firstUpdate = false;
+				firsttimestamp = time(0);
 			}
 		} else if (animate) {
 			if (animatestate) { animatedstate = animation(animatedstate, 1); }
 			if (animatedetails) { animateddetails = animation(animateddetails, 2); }
 			printanime();
-			UpdatePresence(animatedstate.c_str(), animateddetails.c_str(), largeImage.c_str(), smallImage.c_str(), smallImageText.c_str(), largeImageText.c_str());
+			UpdatePresence(animatedstate.c_str(), animateddetails.c_str(), largeImage.c_str(), smallImage.c_str(), smallImageText.c_str(), largeImageText.c_str(), timestamp);
 		}
 		Sleep(15000); // Discord_UpdatePresence() has a rate limit of one update per 15 seconds, that why...
 	}
